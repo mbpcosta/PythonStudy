@@ -14,14 +14,19 @@ def jogar():
 
     print("Qual o nível de dificuldade?")
     print("(1) Fácil (2) Médio (3) Difícil")
-    nivel = int(input("Defina o nível: "))
+    nivel = input("Defina o nível: ")
 
-    if(nivel == 1):
-        tentativas = 20
-    elif(nivel == 2):
-        tentativas = 10
-    else:
-        tentativas = 5
+    if(check_is_digit(nivel)):
+        nivel = int(nivel)
+        if(nivel == 1):
+            tentativas = 20
+        elif(nivel == 2):
+            tentativas = 10
+        elif(nivel == 3):
+            tentativas = 5
+        else:
+            print("Dificuldade inexistente.")
+            
 
     #while(rodada <= tentativas):
     for rodada in range(1,tentativas+1):
@@ -51,9 +56,21 @@ def jogar():
             pontos_perdidos = abs(numero_secreto - chute)
             pontos = pontos - pontos_perdidos
         rodada += 1
+    
+    if(not acertou):
+        print("Você perdeu! :( O número era: {}".format(numero_secreto))
+    
 
 
     print("Fim.")
+
+
+def check_is_digit(nivel):
+    if nivel.strip().isdigit():
+        return True
+    else:
+        print("Digitou uma opção inválida!")
+        return False
 
 if(__name__== "__main__"):
     jogar()

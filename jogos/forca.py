@@ -1,29 +1,51 @@
 import random
+import sys
 
 def jogar():
 
     imprime_mensagem_abertura()
     objeto = seleciona_objeto()
-    palavra_secreta = carrega_palavra_secreta(objeto)
-    letras_acertadas = inicializa_letras_acertadas(palavra_secreta)
-    print(letras_acertadas)
+    if(check_is_digit(objeto)):
+        objeto = int(objeto)
+        if(objeto == 1):
+            print("Jogando Forca com Frutas")
+            palavra_secreta = carrega_palavra_secreta(objeto)
+            letras_acertadas = inicializa_letras_acertadas(palavra_secreta)
+            print(letras_acertadas)
+        elif(objeto == 2):
+            print("Jogando Forca com Ferramentas de Cozinha")
+            palavra_secreta = carrega_palavra_secreta(objeto)
+            letras_acertadas = inicializa_letras_acertadas(palavra_secreta)
+            print(letras_acertadas)
+        else:
+            #print("Tema inválido.")
+            sys.exit("Tema inválido.")
+    else:
+        sys.exit("")
+            
+    
+   # letras_acertadas = inicializa_letras_acertadas(palavra_secreta)
+  #  print(letras_acertadas)
 
     enforcou = False
     acertou = False
     erros = 0
     lista_chute = []
+    lista_letras = []
 
     while(not enforcou and not acertou):
         chute = pede_chute()
-        
+        lista_letras.append(chute)
         if(chute in lista_chute):
             print("Você já chutou essa letra {}.".format(chute))
         else:
             if(chute in palavra_secreta):
                 marca_chute_correto(chute, letras_acertadas, palavra_secreta)
+                print("Letras já jogadas {}".format(lista_letras))
             else:
                 erros += 1
                 desenha_forca(erros)
+                print("Letras já jogadas {}".format(lista_letras))
 
             enforcou = erros == 7
             acertou = "_" not in letras_acertadas
@@ -44,7 +66,14 @@ def imprime_mensagem_abertura():
 
 def seleciona_objeto():
     print("Quer adivinhar ingredientes ou ferramentas de cozinha? ")
-    return int(input("(1) Frutas (2) Ferramentas de cozinha "))
+    return input("(1) Frutas (2) Ferramentas de cozinha ")
+
+def check_is_digit(objeto):
+    if objeto.strip().isdigit():
+        return True
+    else:
+        print("Digitou uma opção inválida!")
+        return False
 
 def carrega_palavra_secreta(objeto):
     if(objeto == 1):
